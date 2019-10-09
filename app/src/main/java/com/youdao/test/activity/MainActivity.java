@@ -1,6 +1,7 @@
 package com.youdao.test.activity;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.os.Bundle;
 
@@ -16,7 +17,9 @@ public class MainActivity extends MvpActivity<MainPresenter, ActivityMainBinding
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getViewDataBinding().tvTest.setText(getString(R.string.app_name));
+        getViewDataBinding().dictRecyclerview.setLayoutManager(new GridLayoutManager(this, 4));
+        getViewDataBinding().dictRecyclerview.setAdapter(getMvpPresenter().getRecyclerViewAdapter());
+        getMvpPresenter().initRecyclerViewData();
     }
 
     @Override

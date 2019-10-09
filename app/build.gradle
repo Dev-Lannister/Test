@@ -26,4 +26,5 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':baselibrary')
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
 }
