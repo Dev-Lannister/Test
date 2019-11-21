@@ -1,11 +1,12 @@
 package com.youdao.test.activity;
 
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
 
 import com.youdao.baselibrary.ui.dataBinding.mvp.MvpActivity;
+import com.youdao.test.Injection;
 import com.youdao.test.R;
 import com.youdao.test.databinding.ActivityMainBinding;
 import com.youdao.test.presenter.MainPresenter;
@@ -17,14 +18,23 @@ public class MainActivity extends MvpActivity<MainPresenter, ActivityMainBinding
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getViewDataBinding().dictRecyclerview.setLayoutManager(new GridLayoutManager(this, 4));
-        getViewDataBinding().dictRecyclerview.setAdapter(getMvpPresenter().getRecyclerViewAdapter());
-        getMvpPresenter().initRecyclerViewData();
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
+        getViewDataBinding().rvBond.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        getMvpPresenter().initBondListAdapter();
+        getViewDataBinding().rvBond.setAdapter(getMvpPresenter().getBondListAdapter());
+
+        getViewDataBinding().rvScan.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        getMvpPresenter().initBondListAdapter();
+        getViewDataBinding().rvScan.setAdapter(getMvpPresenter().getBondListAdapter());
     }
 
     @Override
     protected MainPresenter createPresenter() {
-        return new MainPresenter(this);
+        return new MainPresenter(this, Injection.provideTestRepository());
     }
 
     @Override
