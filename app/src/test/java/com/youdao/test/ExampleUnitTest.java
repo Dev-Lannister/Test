@@ -1,7 +1,5 @@
 package com.youdao.test;
 
-import com.youdao.test.model.bean.TestProtobuf;
-
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -18,11 +16,11 @@ public class ExampleUnitTest {
     }
 
     public static void main(String args[]) {
-        com.youdao.test.model.bean.Test.Word.Builder builder = com.youdao.test.model.bean.Test.Word.newBuilder();
+        com.youdao.test.model.bean.TestProtobuf.Word.Builder builder = com.youdao.test.model.bean.TestProtobuf.Word.newBuilder();
         builder.setText("test");
         builder.setInterpretation("测试");
         builder.setSentence("test is a test");
-        com.youdao.test.model.bean.Test.Word word = builder.build();
+        com.youdao.test.model.bean.TestProtobuf.Word word = builder.build();
         System.out.println(word.getSentence());
     }
 }
