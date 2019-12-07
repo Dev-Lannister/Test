@@ -1,0 +1,8 @@
+option java_package = "com.youdao.test.model.bean"; //存放的包名 编译后源码生成在build/generated/source/proto目录中
+option java_outer_classname = "TestProtobuf"; //生成后输出的类名，默认是文件名字开头大写
+
+message Word {
+    required string text = 1;
+    required string interpretation = 2;
+    optional string sentence = 3;
+}
