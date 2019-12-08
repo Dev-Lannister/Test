@@ -1,5 +1,7 @@
 package com.youdao.test.network.netty;
 
+import android.util.Log;
+
 import com.youdao.test.model.bean.TestProtobuf;
 import com.youdao.test.network.handler.NettyServerHandler;
 
@@ -30,14 +32,11 @@ public class NettyServer implements Runnable {
     public void run() {
         EventLoopGroup boss = new NioEventLoopGroup();
         EventLoopGroup worker = new NioEventLoopGroup();
-
         try {
             ServerBootstrap bootstrap = new ServerBootstrap();
-
             bootstrap.group(boss, worker);
             bootstrap.channel(NioServerSocketChannel.class);
             bootstrap.option(ChannelOption.SO_BACKLOG, 1024); // 连接数
-            bootstrap.childOption(ChannelOption.SO_KEEPALIVE, true); // 长连接
             bootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 protected void initChannel(SocketChannel channel) {
@@ -51,12 +50,12 @@ public class NettyServer implements Runnable {
             });
             ChannelFuture channelFuture = bootstrap.bind(port).sync();
             if (channelFuture.isSuccess()) {
-                System.out.println("启动Netty服务成功，端口号：" + this.port);
+                Log.d("lijiwei", "启动Netty服务成功，端口号：" + this.port);
             }
             // 关闭连接
             channelFuture.channel().closeFuture().sync();
         } catch (Exception e) {
-            System.out.println("启动Netty服务异常，异常信息：" + e.getMessage());
+            Log.d("lijiwei", "启动Netty服务异常，异常信息：" + e.getMessage());
             e.printStackTrace();
         } finally {
             boss.shutdownGracefully();
@@ -66,10 +65,6 @@ public class NettyServer implements Runnable {
 
     public void start() {
         new Thread(this).start();
-    }
-
-    public static void main(String args[]) {
-        new NettyServer(8888).start();
     }
 
 }

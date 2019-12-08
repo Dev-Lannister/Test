@@ -16,6 +16,7 @@ public class MainActivity extends MvpActivity<MainPresenter, ActivityMainBinding
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getMvpPresenter().startServer();
     }
 
     @Override
