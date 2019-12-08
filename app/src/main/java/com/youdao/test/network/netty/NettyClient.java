@@ -27,11 +27,11 @@ public class NettyClient implements Runnable {
     public NettyClient(int port, String host) {
         this.port = port;
         this.host = host;
-        start();
     }
 
     @Override
     public void run() {
+        Log.d("lijiwei", "run: ");
         EventLoopGroup eventLoopGroup = new NioEventLoopGroup();
         try {
 

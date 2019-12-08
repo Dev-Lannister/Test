@@ -11,6 +11,6 @@ public class TestApplication extends Application {
     }
 
     private void initLifecycle() {
-        registerActivityLifecycleCallbacks(new BaseLifecycleCallBack());
+        //registerActivityLifecycleCallbacks(new BaseLifecycleCallBack());
     }
 }
