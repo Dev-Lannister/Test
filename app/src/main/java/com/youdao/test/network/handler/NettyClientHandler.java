@@ -1,5 +1,7 @@
 package com.youdao.test.network.handler;
 
+import android.util.Log;
+
 import com.youdao.test.model.bean.TestProtobuf;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -9,7 +11,7 @@ public class NettyClientHandler extends SimpleChannelInboundHandler<TestProtobuf
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, TestProtobuf.Word word) {
-        System.out.println("客户端收到： " + word.getText());
+        Log.d("lijiwei", "客户端收到： " + word.getText());
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.youdao.test.network.netty;
 
+import android.util.Log;
+
 import com.youdao.test.model.bean.TestProtobuf;
 import com.youdao.test.network.handler.NettyClientHandler;
 
@@ -17,28 +19,20 @@ import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 
-public class NettyClient {
+public class NettyClient implements Runnable {
 
-    /*
-     * 服务器端口号
-     */
     private int port;
-
-    /*
-     * 服务器IP
-     */
     private String host;
 
-    public NettyClient(int port, String host) throws InterruptedException {
+    public NettyClient(int port, String host) {
         this.port = port;
         this.host = host;
         start();
     }
 
-    private void start() throws InterruptedException {
-
+    @Override
+    public void run() {
         EventLoopGroup eventLoopGroup = new NioEventLoopGroup();
-
         try {
 
             Bootstrap bootstrap = new Bootstrap();
@@ -48,7 +42,7 @@ public class NettyClient {
             bootstrap.remoteAddress(host, port);
             bootstrap.handler(new ChannelInitializer<SocketChannel>() {
                 @Override
-                protected void initChannel(SocketChannel socketChannel) throws Exception{
+                protected void initChannel(SocketChannel socketChannel) throws Exception {
                     socketChannel.pipeline().addLast(new ProtobufVarint32FrameDecoder());
                     socketChannel.pipeline().addLast(new ProtobufDecoder(TestProtobuf.Word.getDefaultInstance()));
                     socketChannel.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
@@ -58,15 +52,17 @@ public class NettyClient {
             });
             ChannelFuture channelFuture = bootstrap.connect(host, port).sync();
             if (channelFuture.isSuccess()) {
-                System.err.println("连接服务器成功");
+                Log.d("lijiwei", "连接服务器成功");
             }
             channelFuture.channel().closeFuture().sync();
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             eventLoopGroup.shutdownGracefully();
         }
     }
 
-    public static void main(String[] args) throws InterruptedException {
-        new NettyClient(8888, "localhost");
+    public void start() {
+        new Thread(this).start();
     }
 }
