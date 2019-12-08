@@ -30,6 +30,7 @@ public class NettyServer implements Runnable {
 
     @Override
     public void run() {
+        Log.d("lijiwei", "run: ");
         EventLoopGroup boss = new NioEventLoopGroup();
         EventLoopGroup worker = new NioEventLoopGroup();
         try {
