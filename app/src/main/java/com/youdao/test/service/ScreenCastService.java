@@ -17,6 +17,10 @@ import android.view.Surface;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.protobuf.ByteString;
+import com.youdao.test.model.bean.ScreenCastMessage;
+import com.youdao.test.network.netty.ServerSession;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
@@ -77,7 +81,7 @@ public class ScreenCastService extends Service {
                         byte[] bytes = new byte[outputBuffer.remaining()];
                         outputBuffer.get(bytes);
                         Log.d("lijiwei", "onOutputBufferAvailable: bytes.len = " + bytes.length);
-                        //sendData(null, bytes);
+                        sendData(bytes);
                     }
                     if (mEnCoder != null) {
                         mEnCoder.releaseOutputBuffer(index, false);
@@ -102,6 +106,12 @@ public class ScreenCastService extends Service {
             release();
             e.printStackTrace();
         }
+    }
+
+    private void sendData(byte[] bytes) {
+        ScreenCastMessage.Data.Builder builder = ScreenCastMessage.Data.newBuilder();
+        builder.setData(ByteString.copyFrom(bytes));
+        ServerSession.getInstance().sendMessage(builder.build());
     }
 
     private void stopScreenCapture() {

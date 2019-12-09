@@ -1,6 +1,6 @@
 package com.youdao.test.network.netty;
 
-import com.youdao.test.model.bean.TestProtobuf;
+import com.youdao.test.model.bean.ScreenCastMessage;
 import com.youdao.test.network.Session;
 
 import io.netty.channel.Channel;
@@ -23,7 +23,7 @@ public class ServerSession implements Session {
     }
 
     @Override
-    public void sendMessage(TestProtobuf.Word message) {
+    public void sendMessage(ScreenCastMessage.Data message) {
         channel.writeAndFlush(message);
     }
 

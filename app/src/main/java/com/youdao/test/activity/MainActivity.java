@@ -27,7 +27,6 @@ public class MainActivity extends MvpActivity<MainPresenter, ActivityMainBinding
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             screenCastBinder = (ScreenCastService.ScreenCastBinder) service;
-            screenCastBinder.startScreenCast(resultCode, resultIntent);
         }
 
         @Override
@@ -55,8 +54,8 @@ public class MainActivity extends MvpActivity<MainPresenter, ActivityMainBinding
     }
 
     @Override
-    public void showResult() {
-
+    public void startCapture() {
+        screenCastBinder.startScreenCast(resultCode, resultIntent);
     }
 
     @Override

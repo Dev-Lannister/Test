@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.youdao.test.model.bean.TestProtobuf;
 import com.youdao.test.network.handler.NettyServerHandler;
+import com.youdao.test.network.listener.ConnectListener;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -24,8 +25,11 @@ public class NettyServer implements Runnable {
 
     private int port;
 
-    public NettyServer(int port) {
+    private ConnectListener listener;
+
+    public NettyServer(int port, ConnectListener listener) {
         this.port = port;
+        this.listener = listener;
     }
 
     @Override
@@ -46,7 +50,7 @@ public class NettyServer implements Runnable {
                     pipeline.addLast(new ProtobufDecoder(TestProtobuf.Word.getDefaultInstance()));
                     pipeline.addLast(new ProtobufVarint32LengthFieldPrepender());
                     pipeline.addLast(new ProtobufEncoder());
-                    pipeline.addLast(new NettyServerHandler());// 添加NettyServerHandler，用来处理Server端接收和处理消息的逻辑
+                    pipeline.addLast(new NettyServerHandler(listener));// 添加NettyServerHandler，用来处理Server端接收和处理消息的逻辑
                 }
             });
             ChannelFuture channelFuture = bootstrap.bind(port).sync();

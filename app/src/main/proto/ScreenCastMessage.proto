@@ -1,0 +1,6 @@
+option java_package = "com.youdao.test.model.bean";
+
+message Data {
+    required bytes data = 1;
+    optional string timestamp = 2;
+}
