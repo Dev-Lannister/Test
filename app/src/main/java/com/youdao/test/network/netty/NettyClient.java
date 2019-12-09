@@ -2,6 +2,7 @@ package com.youdao.test.network.netty;
 
 import android.util.Log;
 
+import com.youdao.test.model.bean.ScreenCastMessage;
 import com.youdao.test.model.bean.TestProtobuf;
 import com.youdao.test.network.handler.NettyClientHandler;
 
@@ -44,7 +45,7 @@ public class NettyClient implements Runnable {
                 @Override
                 protected void initChannel(SocketChannel socketChannel) throws Exception {
                     socketChannel.pipeline().addLast(new ProtobufVarint32FrameDecoder());
-                    socketChannel.pipeline().addLast(new ProtobufDecoder(TestProtobuf.Word.getDefaultInstance()));
+                    socketChannel.pipeline().addLast(new ProtobufDecoder(ScreenCastMessage.Data.getDefaultInstance()));
                     socketChannel.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
                     socketChannel.pipeline().addLast(new ProtobufEncoder());
                     socketChannel.pipeline().addLast(new NettyClientHandler());
