@@ -3,6 +3,7 @@ package com.youdao.test.service;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.display.DisplayManager;
 import android.hardware.display.VirtualDisplay;
 import android.media.MediaCodec;
 import android.media.MediaCodecInfo;
@@ -62,8 +63,7 @@ public class ScreenCastService extends Service {
             MediaFormat mediaFormat = MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_AVC, 360, 640);
             mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, 1024000);
             mediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, 30);
-            mediaFormat.setInteger(MediaFormat.KEY_CHANNEL_COUNT, 0);
-            mediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1);
+            mediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1);//关键帧间隔
             mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface);
             mEnCoder = MediaCodec.createEncoderByType(MediaFormat.MIMETYPE_VIDEO_AVC);
             mEnCoder.setCallback(new MediaCodec.Callback() {
@@ -101,7 +101,7 @@ public class ScreenCastService extends Service {
             mEnCoder.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
             mSurface = mEnCoder.createInputSurface();
             mEnCoder.start();
-            mVirtualDisplay = mMediaProjection.createVirtualDisplay(VIRTUAL_DISPLAY_NAME, 360, 720, 240, 1024000, mSurface, null, null);
+            mVirtualDisplay = mMediaProjection.createVirtualDisplay(VIRTUAL_DISPLAY_NAME, 360, 720, 240, DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC, mSurface, null, null);
         } catch (IOException e) {
             release();
             e.printStackTrace();
