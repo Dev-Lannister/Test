@@ -71,7 +71,6 @@ public class ScreenSurfaceView extends SurfaceView implements SurfaceHolder.Call
                 Log.d("lijiwei", "run: 解码器宽高：" + getWidth() + "*" + getHeight());
                 mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, 1024000);
                 mediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, 30);
-                mediaFormat.setInteger(MediaFormat.KEY_CHANNEL_COUNT, 0);
                 mediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1);
                 mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface);
                 if (surface.isValid()) {
